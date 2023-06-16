@@ -5,17 +5,12 @@ $defaults = array(
 	'ua'=>'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:13.0) Gecko/20100101 Firefox/13.0.1 QualityMonitor'
 );
 
-if(!(isset($_REQUEST['api'])&&isset($_REQUEST['code'])&&isset($_REQUEST['nick']))) {
-	die("Error: Missing parameter");
-}
-
 $api = $_REQUEST['api'];
 $code = $_REQUEST['code'];
 $nick = $_REQUEST['nick'];
 $oled = $_REQUEST['oled'];
 $ua = strlen($_REQUEST['ua'])==0?$defaults['ua']:$_REQUEST['ua'];
 $interval = strlen($_REQUEST['interval'])==0?$defaults['interval']:intval($_REQUEST['interval']);
-
 
 $verurl = "$api?code=" . filter($code) . "&nick=" . filter($nick);
 
@@ -31,8 +26,9 @@ if($config->result!=0) {
 
 $token = $config->token;
 $cronurl = $config->cron;
+$uploadurl = $config->upload;
 
-$result = array("API"=>$api,"Code"=>$code,"Nick"=>$nick,"Token"=>$token,"CronURL"=>$cronurl,"UA"=>$ua,"Interval"=>$interval,"UseOled"=>($oled == 1 ? true : false),"LogFile"=>"monitor.$nick.log");
+$result = array("API"=>$api,"Code"=>$code,"Nick"=>$nick,"Token"=>$token,"CronURL"=>$cronurl,"UploadURL"=>$uploadurl,"UA"=>$ua,"Interval"=>$interval,"UseOled"=>($oled == 1 ? true : false),"LogFile"=>"monitor.$nick.log");
 
 file_put_contents("../config.json",json_encode($result));
 
