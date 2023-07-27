@@ -32,7 +32,12 @@ $result = array("API"=>$api,"Code"=>$code,"Nick"=>$nick,"Token"=>$token,"CronURL
 
 file_put_contents("../config.json",json_encode($result));
 
-echo "Settings update successful!";
+if(file_exists("../pid")){
+	$pid=intval(file_get_contents("../pid"));
+	system("kill $pid");
+}
+
+echo "<h1>Settings update successful!</h1><br><h2>Administration token: $token</h2><br>This token will be used for later management. Please keep it properly, or you will need to register again.";
 
 function filter($str)
 {
